@@ -3,6 +3,15 @@ include_once 'database.php';
 $haaletusresult = mysqli_query($conn,"SELECT * FROM HAALETUS");
 $tulemusedresult = mysqli_query($conn,"SELECT * FROM TULEMUSED");
 
+if (isset($_POST['clear_data'])) {
+    $conn->query("TRUNCATE TABLE HAALETUS");
+    $conn->query("TRUNCATE TABLE LOGI");
+    $conn->query("TRUNCATE TABLE TULEMUSED");
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+}
+
+
 //andmebaasist lõpuaeg
 $query = "SELECT MIN(H_lopu_aeg) FROM LOGI";
 $result = mysqli_query($conn, $query);
@@ -21,7 +30,7 @@ var timer = setInterval(function() {
     document.getElementById('countdown').innerHTML = minutes + 'm ' + seconds + 's ';
     if (distance < 0) {
         clearInterval(timer);
-        document.getElementById('countdown').innerHTML = 'aeg on läbi või uus hääletus pole alanud.';
+        document.getElementById('countdown').innerHTML = ' &#128526; &#9973; &#127774;';
     }
 }, 1000);
 </script>";
@@ -33,7 +42,8 @@ var timer = setInterval(function() {
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
   <body>
-	<form method="post" action="process.php">
+	<form method="post" action="process.php" class="instertform">
+	     <p class="countdown">Aeg hääletuse lõpuni: <span style='font-size:25px;'id="countdown"></span></p>
 		Eesnimi:<br>
 		<input type="text" name="Haaletaja_Eesnimi">
 		<br>
@@ -45,17 +55,17 @@ var timer = setInterval(function() {
 			<option value="Poolt">Poolt</option>
 			<option value="Vastu">Vastu</option>
 		</select><br><br>
-		<input type="submit" name="save" value="submit">
-    <p class="countdown">Hääletamine lõpeb: <span id="countdown"></span></p>
+		<input type="submit" name="save" value="Hääleta">
+   
 	</form>
 
 	<table>
   <tr>
-  <td>Eesnimi</td>
-  <td>Perenimi</td>
-  <td>Hääletuse aeg</td>
-  <td>Otsus</td>
-  <td>Hääletaja id</td>
+  <td class="paks">Eesnimi</td>
+  <td class="paks">Perenimi</td>
+  <td class="paks">Hääletuse aeg</td>
+  <td class="paks">Otsus</td>
+  <td class="paks">Hääletaja id</td>
   </tr>
 <?php
 $i=0;
@@ -76,11 +86,11 @@ $i++;
 
 <table>
   <tr>
-  <td>Haaletanute arv</td>
-  <td>Hääletuse alguse aeg</td>
-  <td>Hääletuse lõpu aeg</td>
-  <td>Poolt</td>
-  <td>Vastu</td>
+  <td class="paks">Haaletanute arv</td>
+  <td class="paks">Hääletuse alguse aeg</td>
+  <td class="paks">Hääletuse lõpu aeg</td>
+  <td class="paks">Poolt</td>
+  <td class="paks">Vastu</td>
   </tr>
 <?php
 $i=0;
@@ -98,5 +108,9 @@ $i++;
 }
 ?>
 </table>
+<form method="post">
+    <input type="submit" name="clear_data" value="Tühjenda tabelid">
+</form>
+
   </body>
 </html>
