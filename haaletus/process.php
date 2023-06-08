@@ -4,6 +4,12 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+<div style="display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}">
 <?php
 include_once 'database.php';
 if(isset($_POST['save']))
@@ -24,12 +30,20 @@ if(isset($_POST['save']))
 	 END IF;";
 
     if (mysqli_multi_query($conn, $sql)) {
-        echo "New record created successfully!";
+        echo "<div style='color:white;font-size:24px;'>Sisestatud! Eeldusel, et hääletusaeg kestab ja sa pole 12. hääletaja.";
     } else {
         echo "Error: " . $sql . " " . mysqli_error($conn);
     }
 }
 ?>
-<button onclick="window.location.href='https://steinbergkarina.ikt.khk.ee/veebiarendus/haaletus/'">Tagasi pealehele</button>
+<br><iframe style="margin:10%;margin-left:15%" src="https://giphy.com/embed/l6Td5sKDNmDGU" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/cat-swag-l6Td5sKDNmDGU"></a></p></div>
+    <button style="background-color: #71E8BB;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;" onclick="window.location.href='https://steinbergkarina.ikt.khk.ee/veebiarendus/haal/'">Tagasi pealehele</button>
+</div>
 </body>
 </html>
